@@ -7,7 +7,7 @@ As an improvement from Version 1.0 I've completely rewritten a lot of the code t
 * Utilize Regular Expressions: Searching HTML is messy. Especially the way I went first, using a lot of .replace() statements and a split that usually required data to be in a very specific location. This time around the search algorithms are a lot more robust.
 
 Here is an image showcasing the hierarchy of files:
-![alt text](http://imgur.com/e0NzcJu)
+![Hierarchy Image](https://github.com/Mixmorks/Python-OGame-Bot/blob/master/Hierarchy.png "")
 
 ##To-Do:
 1. Add Research Levels to Interface
