@@ -1,4 +1,6 @@
-from OGameImplementation import *
+from FacilityImplementation import *
+from ResourceImplementation import *
+from StorageImplementation import *
 import mechanize
 import time
 
@@ -23,6 +25,14 @@ solar_sattelites = Solar_sattelites(browser)
 metal_storage = Metal_storage(browser)
 crystal_storage = Crystal_storage(browser)
 deuterium_storage = Deuterium_storage(browser)
+
+robotics_factory = Robotics_factory(browser)
+shipyard = Shipyard(browser)
+research_lab = Research_lab(browser)
+alliance_depot = Alliance_depot(browser)
+missile_silo = Missile_silo(browser)
+nanite_factory = Nanite_factory(browser)
+terraformer = Terraformer(browser)
 
 ###########
 #Main Loop#

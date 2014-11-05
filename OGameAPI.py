@@ -25,6 +25,7 @@ class _Entity:
 	html = None
 	
 	#The facilities and research levels are also stored globally to deal with dependencies.
+	#FACILITIES
 	robotics_level = 0
 	shipyard_level = 0
 	research_level = 0
@@ -32,7 +33,25 @@ class _Entity:
 	missile_level = 0
 	nanite_level = 0
 	terraformer_level = 0
-
+	
+	#RESEARCH
+	energy_technology = 0
+	laser_technology = 0
+	ion_technology = 0
+	hyperspace_technology = 0
+	plasma_technology = 0
+	combustion_drive = 0
+	impulse_drive = 0
+	hyperspace_drive = 0
+	espionage_technology = 0
+	computer_technology = 0
+	astrophysics = 0
+	intergalactic_research_network = 0
+	graviton_technology = 0
+	weapons_technology = 0
+	shielding_technology = 0
+	armor_technology = 0
+	
 	def __init__(self, browser, cost_increase_factor, base_costs, id, link):
 		self.id = id
 		self.link = link #Link needs to be established before the call to update_level.
@@ -97,14 +116,14 @@ class _Entity:
 	
 	def _update_level(self, browser):
 		self._change_browser(browser)
-
+		
 		html = _Entity.html
 		html_crawler = BeautifulSoup(html)
 		html_level_string = str(html_crawler.find(id = self.id).find('span',{'class':'level'})).replace(".","")
 		self.level =  int(re.search('\d+', html_level_string).group(0)) #Using regular expressions, I can strip out the solitary level decimal
 	
 	#Whenever we want to build something we need to first test if we have the resources available.
-	def _fetch_resources_available(self)
+	def _fetch_resources_available(self):
 		html = _Entity.html
 		html_crawler = BeautifulSoup(html)
 		html_level_string = str(html_crawler.find('span',{'id':'resources_metal'})).replace(".","")
@@ -153,75 +172,8 @@ class _Entity:
 	def buildable(self, browser):
 		self._update_costs(browser)
 		
-		[metal_available, crystal_available, deuterium_available, energy_available] = _fetch_resources_available(self)
+		[metal_available, crystal_available, deuterium_available, energy_available] = self._fetch_resources_available()
 		
 		if self.metal_upgrade_cost <= metal_available and self.crystal_upgrade_cost <= crystal_available and self.deuterium_upgrade_cost <= deuterium_available and self.power_cost <= energy_available:
-				return 1
-		return 0
-
-#This is a more specialized class for the resource producing buildings.
-#These are the differences (apart from the more obvious production and consumption
-#_buildime: Buildtime for Resource buildings depends on the level of my Robotics or Nanite Factory
-#buildable: Resource buildings consume energy. This needs to be taken into account when looking to build them.
-
-class _Resource(_Entity):
-	
-	robotics_level = 0
-	nanite_level = 0
-	
-	def __init__(self, browser, cost_increase_factor, base_costs, id, link, base_production, base_consumption):
-		_Entity.__init__(self, browser, cost_increase_factor, base_costs, id, link)
-		self.base_production = base_production
-		self.base_consumption = base_consumption
-		
-		self.power_cost = self._consumption() #In case of the Fusion Reactor this translates into Deuterium_cost
-		self.production = self._production()
-	
-	def _consumption(self):
-		return self.base_consumption * ((self.level * pow(1.1, self.level)) - (self.level - 1) * pow(1.1, (self.level - 1)))
-	
-	def _production(self): #Production in Hours
-		return self.base_production * self.level * pow(1.1, self.level)
-	
-	def _buildtime(self): #Buildtime in Seconds
-		buildtime = int(60*60*(self.metal_upgrade_cost + self.crystal_upgrade_cost) / (2500 * max(4 - self.level / 2, 1) * (1 + self.robotics_level) * pow(2,self.nanite_level)))
-		print "Projected Buildtime is: " + str(int(buildtime/60)) + "m and " + str(buildtime%60) + "s. (or: " +str(buildtime) + " seconds)"		
-		return buildtime
-	
-	def buildable(self, browser): #Function is redefined for resource buildings to also take into consideration their energy consumption.
-		self._change_browser(browser)
-		[metal_available, crystal_available, deuterium_available, energy_available] = _fetch_resources_available(self)
-
-		if self.metal_upgrade_cost <= metal_available and self.crystal_upgrade_cost <= crystal_available and self.deuterium_upgrade_cost <= deuterium_available and self.power_cost <= energy_available:
-				return 1
-		return 0
-
-		
-class _Storage(_Entity):
-	
-	def __init__(self, browser, cost_increase_factor, base_costs, id, link):
-		_Entity.__init__(self, browser, cost_increase_factor, base_costs, id, link)
-		self.storage_capacity = int(2.5 * pow(2.7182818284590451,(20 * self.level/33)) * 5000)
-
-class _Facility(_Entity):
-	
-	def __init__(self, browser, cost_increase_factor, base_costs, id, link):
-		_Entity.__init__(self, browser, cost_increase_factor, base_costs, id, link)
-		self._set_level()
-	
-	def _buildtime(self): #Buildtime in Seconds
-		buildtime = int(60*60*(self.metal_upgrade_cost + self.crystal_upgrade_cost) / (2500 * max(4 - self.level / 2, 1) * (1 + self.robotics_level) * pow(2,self.nanite_level)))
-		print "Projected Buildtime is: " + str(int(buildtime/60)) + "m and " + str(buildtime%60) + "s. (or: " +str(buildtime) + " seconds)"		
-		return buildtime
-
-	def _set_level(self):
-		raise NotImplementedError("This function needs to be set within the Facility implementations.")
-	
-	def buildable(self, browser): #Function is redefined for facility buildings to also take into consideration their prerequisites.
-		self._change_browser(browser)	
-		
-		[metal_available, crystal_available, deuterium_available, energy_available] = _fetch_resources_available(self)
-		
-		if self.metal_upgrade_cost < metal_available and self.crystal_upgrade_cost < crystal_available and self.deuterium_upgrade_cost < deuterium_available:
 				return 1
 		return 0
