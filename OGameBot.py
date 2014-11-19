@@ -1,6 +1,7 @@
 from FacilityImplementation import *
 from ResourceImplementation import *
 from StorageImplementation import *
+from ResearchImplementation import *
 import mechanize
 import time
 
@@ -34,9 +35,27 @@ missile_silo = Missile_silo(browser)
 nanite_factory = Nanite_factory(browser)
 terraformer = Terraformer(browser)
 
+energy_technology = Energy_technology(browser)
+laser_technology = Laser_technology(browser)
+ion_technology = Ion_technology(browser)
+hyperspace_technology = Hyperspace_technology(browser)
+plasma_technology = Plasma_technology(browser)
+combustion_drive = Combustion_drive(browser)
+impulse_drive = Impulse_drive(browser)
+hyperspace_drive = Hyperspace_drive(browser)
+espionage_technology = Espionage_technology(browser)
+computer_technology = Computer_technology(browser)
+astrophysics = Astrophysics(browser)
+intergalactic_research_network = Intergalactic_research_network(browser)
+graviton_technology = Graviton_technology(browser)
+weapons_technology = Weapons_technology(browser)
+shielding_technology = Shielding_technology(browser)
+armor_technology = Armor_technology(browser)
+
 ###########
 #Main Loop#
 ###########
+'''
 while True:
 	sleep_time = 0
 	sleep_cmpr = 0
@@ -73,3 +92,4 @@ while True:
 			sleep_time = sleep_cmpr
 
 	time.sleep(sleep_time + 5)
+'''

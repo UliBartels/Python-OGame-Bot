@@ -10,6 +10,5 @@ Here is an image showcasing the hierarchy of files:
 ![Hierarchy Image](https://github.com/Mixmorks/Python-OGame-Bot/blob/master/Hierarchy.png "")
 
 ##To-Do:
-1. Add Research Levels to Interface
-3. Add the ability to scan other players
-4. Add the ability to plan and perform attacks.
+1. Add the ability to scan other players
+2. Add the ability to plan and perform attacks.
