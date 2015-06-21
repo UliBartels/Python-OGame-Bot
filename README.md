@@ -9,6 +9,8 @@ As an improvement from Version 1.0 I've completely rewritten a lot of the code t
 Here is an image showcasing the hierarchy of files:
 ![Hierarchy Image](https://github.com/Mixmorks/Python-OGame-Bot/blob/master/Hierarchy.png "")
 
-##To-Do:
-1. Add the ability to scan other players
-2. Add the ability to plan and perform attacks.
+##Status:
+Turns out OGame is using Javascript in its Galaxy view. There may be ways to send fleets to random locations but I haven't investigated the issue further. As of this point the Bot is no longer in development.
+
+##Abilities:
+This bot can login, scrape building and research data, calculate whether enough resources are available to build a certain item and send a build command. This script cannot build defenses or fleets, scan other players or attack.
